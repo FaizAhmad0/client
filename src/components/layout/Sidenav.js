@@ -154,7 +154,7 @@ function Sidenav({ color }) {
         <img src={logo} alt="" />
         <span>Admin Dashboard</span>
       </div>
-      
+
       <Menu theme="light" mode="inline">
         <Menu.Item key="1">
           <NavLink to="/dashboard">
@@ -222,25 +222,20 @@ function Sidenav({ color }) {
           </NavLink>
         </Menu.Item>
         <Menu.Item key="4">
-
-<a href="https://hindi.liyostech.com/" target="_blank">
-<span
-    className="icon"
-    style={{
-      background: page === "ordawlt" ? color : "",
-    }}
-  >
-    {rtl}
-  </span>
-  <span className="label">LMS</span>
-
-
-
-</a>
-</Menu.Item>
-<Menu.Item key="4">
+          <a href="https://hindi.liyostech.com/" target="_blank">
+            <span
+              className="icon"
+              style={{
+                background: page === "ordawlt" ? color : "",
+              }}
+            >
+              {rtl}
+            </span>
+            <span className="label">LMS</span>
+          </a>
+        </Menu.Item>
+        <Menu.Item key="4">
           <a href="https://support.saumiccraft.com/" target="_blank">
-        
             <span
               className="icon"
               style={{
@@ -250,7 +245,6 @@ function Sidenav({ color }) {
               {rtl}
             </span>
             <span className="label">Support</span>
-        
           </a>
         </Menu.Item>
         <Menu.Item key="2">
@@ -278,9 +272,21 @@ function Sidenav({ color }) {
             </span>
             <span className="label">User Dashboard</span>
           </NavLink>
-          
         </Menu.Item>
-        <hr/>
+        <Menu.Item key="9">
+          <NavLink to="/support">
+            <span
+              className="icon"
+              style={{
+                background: page === "tables" ? color : "",
+              }}
+            >
+              {tables}
+            </span>
+            <span className="label">Support</span>
+          </NavLink>
+        </Menu.Item>
+        <hr />
         {/* <div className="brand">
         <img src={logo} alt="" />
         <span>Manager Dashboard</span>
@@ -343,7 +349,7 @@ function Sidenav({ color }) {
           </NavLink>
         </Menu.Item>
        */}
-      
+
         {/* <Menu.Item key="7">
           <NavLink to="/sign-in">
             <span className="icon">{signin}</span>
