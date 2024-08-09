@@ -4,7 +4,7 @@
 
 [build.environment]
   SKIP_PREFLIGHT_CHECK = "true"
-  NODE_VERSION = "16.20.0"  # Specified an exact version to avoid issues
+  NODE_VERSION = "16.20.0"
 
 [[redirects]]
   from = "/*"
