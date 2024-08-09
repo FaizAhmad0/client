@@ -1,0 +1,12 @@
+[build]
+  command = "NODE_OPTIONS=--openssl-legacy-provider npm run build"
+  publish = "build"
+  environment = { SKIP_PREFLIGHT_CHECK = "true" }
+
+[build.environment]
+  NODE_VERSION = "16.x"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
