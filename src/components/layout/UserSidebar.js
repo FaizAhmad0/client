@@ -83,7 +83,7 @@ function UserSidebar({ color }) {
       assignee: values.manager,
     };
     axios
-      .post("http://localhost:5000/api/support/newticket", formattedValues, {
+      .post("https://server-nine-liard.vercel.app/api/support/newticket", formattedValues, {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => {

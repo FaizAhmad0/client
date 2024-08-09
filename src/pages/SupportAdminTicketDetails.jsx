@@ -29,7 +29,7 @@ const SupportAdminTicketDetails = () => {
     console.log("button data", id);
     try {
       await axios.put(
-        `http://localhost:5000/api/support/closeticket/${id}`,
+        `https://server-nine-liard.vercel.app/api/support/closeticket/${id}`,
         {},
         {
           headers: {
@@ -57,7 +57,7 @@ const SupportAdminTicketDetails = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/support/ticketbyid/${ticketId}`,
+        `https://server-nine-liard.vercel.app/api/support/ticketbyid/${ticketId}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -84,7 +84,7 @@ const SupportAdminTicketDetails = () => {
   const onFinish = async (values) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/support/updateuserticket/${ticketId}`,
+        `https://server-nine-liard.vercel.app/api/support/updateuserticket/${ticketId}`,
         values,
         {
           headers: {

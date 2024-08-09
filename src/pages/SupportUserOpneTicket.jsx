@@ -14,7 +14,7 @@ const SupportUserOpenTicket = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/openticket",
+        "https://server-nine-liard.vercel.app/api/support/openticket",
         {
           headers: {
             Authorization: localStorage.getItem("token"),

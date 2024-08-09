@@ -65,7 +65,7 @@ const BookAppointmentForm = () => {
 
     axios
       .post(
-        "http://localhost:5000/api/support/appointmentRoute",
+        "https://server-nine-liard.vercel.app/api/support/appointmentRoute",
         formattedValues,
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -339,7 +339,7 @@ export default BookAppointmentForm;
 
 //     axios
 //       .post(
-//         "http://localhost:5000/api/support/appointmentRoute",
+//         "https://server-nine-liard.vercel.app/api/support/appointmentRoute",
 //         formattedValues,
 //         {
 //           headers: { Authorization: localStorage.getItem("token") },

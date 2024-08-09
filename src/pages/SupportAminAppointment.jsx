@@ -37,7 +37,7 @@ const SupportAdminAppointment = () => {
     console.log("button data", id);
     try {
       await axios.put(
-        `http://localhost:5000/api/support/updateappointmentbyid/${id}`,
+        `https://server-nine-liard.vercel.app/api/support/updateappointmentbyid/${id}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -64,7 +64,7 @@ const SupportAdminAppointment = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/getallappointments",
+        "https://server-nine-liard.vercel.app/api/support/getallappointments",
         {
           headers: {
             Authorization: localStorage.getItem("token"),

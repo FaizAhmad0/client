@@ -21,7 +21,7 @@ const SupportManagerDash = () => {
     const name = localStorage.getItem("name");
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/support/getmanagerticket?name=${encodeURIComponent(
+        `https://server-nine-liard.vercel.app/api/support/getmanagerticket?name=${encodeURIComponent(
           name
         )}`,
         {

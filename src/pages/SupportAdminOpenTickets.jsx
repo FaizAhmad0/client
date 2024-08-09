@@ -17,7 +17,7 @@ const SupportAdminOpenTickets = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/getallopenticket",
+        "https://server-nine-liard.vercel.app/api/support/getallopenticket",
         {
           headers: {
             Authorization: localStorage.getItem("token"),

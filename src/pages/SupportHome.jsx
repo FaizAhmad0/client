@@ -13,7 +13,7 @@ const SupportHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/support");
+        const response = await axios.get("https://server-nine-liard.vercel.app/api/support");
         console.log("user exist in ", response.data);
         // dispatch(getUser(response.data));
       } catch (err) {

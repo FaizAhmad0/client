@@ -108,7 +108,7 @@ export default function BookAppointment() {
 
     axios
       .post(
-        "http://localhost:5000/api/support/appointmentRoute",
+        "https://server-nine-liard.vercel.app/api/support/appointmentRoute",
         formattedValues,
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -139,7 +139,7 @@ export default function BookAppointment() {
   const getAppointments = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/getappointments",
+        "https://server-nine-liard.vercel.app/api/support/getappointments",
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -309,7 +309,7 @@ export default function BookAppointment() {
     console.log("Form Data:", formData);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/support/appointmentRoute",
+        "https://server-nine-liard.vercel.app/api/support/appointmentRoute",
         formData
       );
       console.log("Appointment booked successfully", response.data);

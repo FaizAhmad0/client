@@ -19,7 +19,7 @@ const SupportAllmanager = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/getallmanagers",
+        "https://server-nine-liard.vercel.app/api/support/getallmanagers",
         {
           headers: {
             Authorization: localStorage.getItem("token"),

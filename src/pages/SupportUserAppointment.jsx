@@ -34,7 +34,7 @@ const SupportUserAppointment = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/getappointments",
+        "https://server-nine-liard.vercel.app/api/support/getappointments",
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -105,7 +105,7 @@ const SupportUserAppointment = () => {
     console.log(values);
     try {
       await axios.post(
-        `http://localhost:5000/api/support/reviewappointment/${selectedAppointment._id}`,
+        `https://server-nine-liard.vercel.app/api/support/reviewappointment/${selectedAppointment._id}`,
         values,
         {
           headers: {

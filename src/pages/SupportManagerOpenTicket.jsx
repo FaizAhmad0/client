@@ -15,7 +15,7 @@ const SupportManagerOpenTicket = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/support/openmanagerticket",
+        "https://server-nine-liard.vercel.app/api/support/openmanagerticket",
         {
           headers: {
             Authorization: localStorage.getItem("token"),
