@@ -1,9 +1,9 @@
 [build]
   command = "NODE_OPTIONS=--openssl-legacy-provider npm run build"
   publish = "build"
-  environment = { SKIP_PREFLIGHT_CHECK = "true" }
 
 [build.environment]
+  SKIP_PREFLIGHT_CHECK = "true"
   NODE_VERSION = "16.x"
 
 [[redirects]]
