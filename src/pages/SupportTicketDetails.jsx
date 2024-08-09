@@ -101,7 +101,7 @@ const SupportTicketDetails = () => {
         "Success",
         "Comment added successfully."
       );
-      history.push(`/supportuserticketdetails/${ticketId}`);
+      history.push(`/supportticketdetails/${ticketId}`);
       getTicket();
     } catch (error) {
       console.error("Error updating ticket:", error);
@@ -117,7 +117,7 @@ const SupportTicketDetails = () => {
     <>
       <SupportNavbar />
       <div className="main">
-        <div style={{ marginRight: "150px" }} className="content">
+        <div style={{ margin: "120px 150px" }} className="content">
           {loadingData ? (
             <Loader />
           ) : (

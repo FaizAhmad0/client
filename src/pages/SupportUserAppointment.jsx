@@ -119,6 +119,7 @@ const SupportUserAppointment = () => {
         "Review submitted successfully."
       );
       handleCancel();
+      getAppointments();
     } catch (error) {
       console.error("Error submitting review:", error);
       openNotificationWithIcon(
@@ -291,7 +292,8 @@ const SupportUserAppointment = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 marginTop: "140px",
-              }} id="defauler"
+              }}
+              id="defauler"
             >
               <h1>No data found</h1>
             </div>
