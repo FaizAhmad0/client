@@ -24,7 +24,7 @@ const SupportAdminDash = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "https://server-nine-liard.vercel.app/api/support/getallticket",
+        "https://server-kappa-ten-43.vercel.app/api/support/getallticket",
         {
           headers: {
             Authorization: localStorage.getItem("token"),

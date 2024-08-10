@@ -65,7 +65,7 @@ const BookAppointmentForm = () => {
 
     axios
       .post(
-        "https://server-nine-liard.vercel.app/api/support/appointmentRoute",
+        "https://server-kappa-ten-43.vercel.app/api/support/appointmentRoute",
         formattedValues,
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -339,7 +339,7 @@ export default BookAppointmentForm;
 
 //     axios
 //       .post(
-//         "https://server-nine-liard.vercel.app/api/support/appointmentRoute",
+//         "https://server-kappa-ten-43.vercel.app/api/support/appointmentRoute",
 //         formattedValues,
 //         {
 //           headers: { Authorization: localStorage.getItem("token") },

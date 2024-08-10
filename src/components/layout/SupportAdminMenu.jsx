@@ -64,7 +64,10 @@ const SupportAdminMenu = () => {
       .then((values) => {
         console.log(values);
         axios
-          .post("https://server-nine-liard.vercel.app/api/support/create-manager", values)
+          .post(
+            "https://server-kappa-ten-43.vercel.app/api/support/create-manager",
+            values
+          )
           .then((response) => {
             console.log("Success:", response.data);
             handleCancel();

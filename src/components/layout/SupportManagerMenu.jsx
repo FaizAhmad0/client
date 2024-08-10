@@ -65,7 +65,10 @@ const SupportManagerMenu = ({ managerData }) => {
       .validateFields()
       .then((values) => {
         axios
-          .post("https://server-nine-liard.vercel.appapi/support/create-user", values)
+          .post(
+            "https://server-kappa-ten-43.vercel.appapi/support/create-user",
+            values
+          )
           .then((response) => {
             console.log("Success:", response.data);
             // dispatch(addUser(response.data));

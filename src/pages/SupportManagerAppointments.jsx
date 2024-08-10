@@ -39,7 +39,7 @@ const SupportManagerAppointments = () => {
     console.log("button data", id);
     try {
       await axios.put(
-        `https://server-nine-liard.vercel.app/api/support/updateappointmentbyid/${id}`,
+        `https://server-kappa-ten-43.vercel.app/api/support/updateappointmentbyid/${id}`,
         {},
         {
           headers: {
@@ -70,7 +70,7 @@ const SupportManagerAppointments = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        "https://server-nine-liard.vercel.app/api/support/getmanagerappointments",
+        "https://server-kappa-ten-43.vercel.app/api/support/getmanagerappointments",
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -128,7 +128,7 @@ const SupportManagerAppointments = () => {
     console.log(values);
     try {
       await axios.post(
-        `https://server-nine-liard.vercel.app/api/support/reviewmanagerappointment/${selectedAppointment._id}`,
+        `https://server-kappa-ten-43.vercel.app/api/support/reviewmanagerappointment/${selectedAppointment._id}`,
         values,
         {
           headers: {

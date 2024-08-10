@@ -27,7 +27,7 @@ const SupportTicketDetails = () => {
     setLoadingData(true);
     try {
       const response = await axios.get(
-        `https://server-nine-liard.vercel.app/api/support/ticketbyid/${ticketId}`,
+        `https://server-kappa-ten-43.vercel.app/api/support/ticketbyid/${ticketId}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),
@@ -56,7 +56,7 @@ const SupportTicketDetails = () => {
     console.log("button data", id);
     try {
       await axios.put(
-        `https://server-nine-liard.vercel.app/api/support/closeticket/${id}`,
+        `https://server-kappa-ten-43.vercel.app/api/support/closeticket/${id}`,
 
         {
           headers: {
@@ -88,7 +88,7 @@ const SupportTicketDetails = () => {
     console.log(values);
     try {
       await axios.put(
-        `https://server-nine-liard.vercel.app/api/support/addComment/${ticketId}`,
+        `https://server-kappa-ten-43.vercel.app/api/support/addComment/${ticketId}`,
         { comment: values.comment, name, role },
         {
           headers: {
