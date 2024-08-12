@@ -20,7 +20,7 @@ const BookAppointmentForm = () => {
   const [form] = Form.useForm();
 
   const buttonStyle = {
-    backgroundColor: "#353979",
+    backgroundColor: "#5A51C1",
     color: "White",
     borderRadius: "20px",
     fontWeight: "bold",

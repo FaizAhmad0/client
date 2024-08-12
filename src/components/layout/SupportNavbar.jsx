@@ -29,7 +29,7 @@ export default function SupportNavbar({
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar sx={{ backgroundColor: "#353979", position: "fixed" }}>
+      <AppBar sx={{ backgroundColor: "#5A51C1", position: "fixed" }}>
         {/* position="static" */}
         <Toolbar>
           <Button

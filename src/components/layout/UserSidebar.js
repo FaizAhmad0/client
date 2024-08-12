@@ -125,7 +125,7 @@ function UserSidebar({ color }) {
             <span
               className="icon"
               style={{
-                background: page === "dashboard" ? color : "rgb(53, 57, 121)",
+                background: page === "dashboard" ? color : "#5A51C1",
               }}
             >
               {dashboard}
@@ -138,7 +138,7 @@ function UserSidebar({ color }) {
             <span
               className="icon"
               style={{
-                background: page === "appointment" ? color : "rgb(53, 57, 121)",
+                background: page === "appointment" ? color : "#5A51C1",
               }}
             >
               {dashboard}
@@ -151,7 +151,7 @@ function UserSidebar({ color }) {
             <span
               className="icon"
               style={{
-                background: page === "openticket" ? color : "rgb(53, 57, 121)",
+                background: page === "openticket" ? color : "#5A51C1",
               }}
             >
               {dashboard}
@@ -163,7 +163,7 @@ function UserSidebar({ color }) {
           <span
             className="icon"
             style={{
-              background: "rgb(53, 57, 121)",
+              background: "#5A51C1",
               marginLeft: "16px",
               marginTop: "15px",
               marginBottom: "15px",
@@ -182,7 +182,7 @@ function UserSidebar({ color }) {
             <span
               className="icon"
               style={{
-                background: page === "logout" ? color : "rgb(53, 57, 121)",
+                background: page === "logout" ? color : "#5A51C1",
               }}
             >
               <LogoutIcon />
