@@ -78,7 +78,9 @@ const SupportUserOpenTicket = () => {
                 {tickets.map((ticket) => (
                   <tr
                     key={ticket.id}
-                    style={{ fontSize: "12px" }}
+                    style={{ fontSize: "12px",
+                      fontWeight: "bold",
+                     }}
                     onClick={() => handleRowClick(ticket.id)}
                   >
                     <td>{ticket._id}</td>

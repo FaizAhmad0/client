@@ -69,11 +69,23 @@ const SupportUserAppointment = () => {
   const getRowStyle = (status) => {
     switch (status) {
       case "pending":
-        return { backgroundColor: "RGB(248,222,126)" };
+        return {
+          backgroundColor: "#FFD9D6",
+          color: "#FF7A70",
+          fontWeight: "bold",
+        };
       case "open":
-        return { backgroundColor: "rgb(41,171,135)", color: "white" };
+        return {
+          backgroundColor: "rgb(203,234,205)",
+          color: "green",
+          fontWeight: "bold",
+        };
       case "closed":
-        return { backgroundColor: "rgb(41,171,135)", color: "white" };
+        return {
+          backgroundColor: "#E3E4DD",
+          color: "rgb(54, 51, 51)",
+          fontWeight: "bold",
+        };
       default:
         return {};
     }
@@ -253,6 +265,7 @@ const SupportUserAppointment = () => {
                     key={appointment._id}
                     style={{
                       fontSize: "12px",
+                      fontWeight: "bold",
                     }}
                     onClick={() => handleRowClick(appointment._id)}
                   >
