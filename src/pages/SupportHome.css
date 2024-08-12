@@ -45,7 +45,7 @@
 }
 
 .heroTitle > button {
-  background-color: #353979;
+  background-color: #5A51C1;
   border-radius: 20px;
   padding: 8px 16px;
   font-weight: bold;
@@ -55,7 +55,7 @@
 }
 
 .heroTitle > button:hover {
-  background-color: #2b316d;
+  background-color: #5A51C1;
 }
 
 .video {
