@@ -31,14 +31,17 @@ export default function SupportFooter() {
   return (
     <Box
       sx={{
-        bgcolor: 'background.paper',
+        bgcolor: "background.paper",
         pt: 3,
         pb: 2,
-        borderTop: '1px solid #e0e0e0'
+        borderTop: "1px solid #e0e0e0",
       }}
     >
-      <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center',  }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+      <Container
+        maxWidth="lg"
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
           <IconButton href="https://www.facebook.com" color="inherit">
             <FacebookIcon />
           </IconButton>
@@ -60,11 +63,11 @@ export default function SupportFooter() {
         </Box>
         <Box
           sx={{
-            width: '100%',
-            bgcolor: '#d3d3d3',
+            width: "100%",
+            bgcolor: "#d3d3d3",
             pt: 2,
             pb: 2,
-            backgroundColor:"#353979",
+            backgroundColor: "#5A51C1",
           }}
         >
           <Copyright />
