@@ -69,6 +69,10 @@
   background-color: #f9f9f9;
 }
 
+.ftlrByStatus {
+  font-weight: bold;
+}
+
 .comment-header {
   display: flex;
   justify-content: space-between;
