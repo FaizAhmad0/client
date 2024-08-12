@@ -111,7 +111,7 @@ const RaiseTicket = () => {
           <Form.Item>
             <Button
               style={{
-                background: "#353979",
+                background: "#5A51C1",
                 boxShadow:
                   "0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 alignItems: "center",
