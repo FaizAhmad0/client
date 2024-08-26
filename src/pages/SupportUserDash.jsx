@@ -8,6 +8,7 @@ import ListIcon from "@mui/icons-material/List";
 import axios from "axios";
 import { Form, Select, Input } from "antd";
 import UserLayout from "../components/layout/UserLayout";
+import { colors } from "@mui/material";
 
 const { Option } = Select;
 
@@ -16,7 +17,7 @@ const SupportUserDash = () => {
   const [tickets, setTickets] = useState([]);
   const [loadingData, setLoadingData] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
-  const [ticketIdFilter, setTicketIdFilter] = useState(""); // New state for ticket ID filter
+  const [ticketIdFilter, setTicketIdFilter] = useState("");
 
   const getTicket = async () => {
     setLoadingData(true);

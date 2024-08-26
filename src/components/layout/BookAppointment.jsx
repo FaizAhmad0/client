@@ -4,6 +4,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import { useEffect } from "react";
 import StepLabel from "@mui/material/StepLabel";
+
 import {
   Button,
   Modal,
@@ -29,66 +30,65 @@ const dropDownStyle = {
   width: 470,
 };
 
-const arr = [
-  { title: "Amazon.com", options: ["Mukesh", "Charu", "Prakash(Amazon.in)"] },
-  {
-    title: "Flipkart",
-    options: ["Dipanshu", "SM6(Ujwal)", "Team Leader7(Ramesh)"],
-  },
-  { title: "Meesho", options: ["Dinesh", "Team Leader4(Rahul)", "Yogendra"] },
-  { title: "Esty", options: ["Team Leader3(Ritu)", "SM13(Akhil)"] },
-  {
-    title: "Amazon India",
-    options: ["Dipanshu", "Mukesh", "Team Leader4(Rahul)"],
-  },
-  { title: "Website", options: ["Team Leader7(Ramesh)", "SM6(Ujwal)"] },
-];
-
 const timeSlots = [
-  "10:05 am",
-  "10:10 am",
-  "10:15 am",
-  "10:20 am",
-  "10:25 am",
-  "10:30 am",
-  "10:35 am",
-  "10:40 am",
-  "10:45 am",
-  "10:50 am",
-  "11:00 am",
-  "11:10 am",
-  "11:20 am",
-  "11:30 am",
-  "11:40 am",
-  "11:50 am",
-  "12:00 pm",
-  "12:10 pm",
-  "12:20 pm",
-  "12:30 pm",
-  "12:40 pm",
-  "12:50 pm",
-  "1:00 pm",
-  "1:10 pm",
-  "1:20 pm",
-  "1:30 pm",
-  "1:40 pm",
-  "1:50 pm",
-  "2:00 pm",
-  "2:10 pm",
-  "2:20 pm",
-  "2:30 pm",
-  "2:40 pm",
-  "2:50 pm",
+  "10:05",
+  "10:10",
+  "10:15",
+  "10:20",
+  "10:25",
+  "10:30",
+  "10:35",
+  "10:40",
+  "10:45",
+  "10:50",
+  "11:00",
+  "11:10",
+  "11:20",
+  "11:30",
+  "11:40",
+  "11:50",
+  "12:00",
+  "12:10",
+  "12:20",
+  "12:30",
+  "12:40",
+  "12:50",
+  "13:00",
+  "13:10",
+  "13:20",
+  "13:30",
+  "13:40",
+  "13:50",
+  "14:00",
+  "14:10",
+  "14:20",
+  "14:30",
+  "14:40",
+  "14:50",
 ];
 
 export default function BookAppointment() {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedPlatform, setSelectedPlatform] = useState({
-    title: "Amazon.com",
-    options: ["Mukesh", "Charu", "Prakash(Amazon.in)"],
-  });
+  const [platforms, setPlatforms] = useState([]);
+
+  const [selectedPlatform, setSelectedPlatform] = useState({});
   const [appointments, setAppointments] = useState([]);
-  console.log(appointments);
+
+  const getPlatform = async () => {
+    try {
+      const response = await axios.get(
+        "https://server-kappa-ten-43.vercel.app/api/support/get-platform",
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      setPlatforms(response.data);
+    } catch (err) {
+      console.log("Error fetching platforms:", err);
+    }
+  };
 
   const openNotificationWithIcon = (type, message, description) => {
     notification[type]({
@@ -100,6 +100,24 @@ export default function BookAppointment() {
 
   const handleFinish = (values) => {
     console.log("Form values:", values);
+
+    const now = new Date();
+    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+    const recentAppointments = appointments.filter((appointment) => {
+      const appointmentDate = new Date(appointment.date);
+      return appointmentDate >= twentyFourHoursAgo && appointmentDate <= now;
+    });
+
+    // Check if the user has already booked 3 or more appointments
+    if (recentAppointments.length >= 3) {
+      openNotificationWithIcon(
+        "error",
+        "Booking Limit Reached",
+        "You can only book 3 appointments within a 24-hour period. Please try again later."
+      );
+      return; // Prevent booking
+    }
 
     const formattedValues = {
       ...values,
@@ -163,6 +181,7 @@ export default function BookAppointment() {
 
   useEffect(() => {
     getAppointments();
+    getPlatform();
   }, []);
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -305,7 +324,54 @@ export default function BookAppointment() {
     return valid;
   };
 
+  // const handleSubmit = async () => {
+  //   console.log("Form Data:", formData);
+  //   try {
+  //     const response = await axios.post(
+  //       "https://server-kappa-ten-43.vercel.app/api/support/appointmentRoute",
+  //       formData
+  //     );
+  //     console.log("Appointment booked successfully", response.data);
+  //     openNotificationWithIcon(
+  //       "success",
+  //       "Appointment Booked",
+  //       "Your appointment has been successfully booked."
+  //     );
+  //   } catch (error) {
+  //     console.error("Error booking appointment", error);
+  //     openNotificationWithIcon(
+  //       "error",
+  //       "Failed",
+  //       "Your appointment couldn't be booked at this time, please try again."
+  //     );
+  //   }
+  // };
+
   const handleSubmit = async () => {
+    const now = new Date();
+
+    // Filter the appointments to include only those booked on the same day
+    const startOfDay = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+    const todayAppointments = appointments.filter((appointment) => {
+      const appointmentDate = new Date(appointment.date);
+      return appointmentDate >= startOfDay && appointmentDate <= now;
+    });
+
+    // Check if the user has already booked 3 or more appointments today
+    if (todayAppointments.length >= 3) {
+      openNotificationWithIcon(
+        "error",
+        "Booking Limit Reached",
+        "You can only book 3 appointments within a day. Please try again tomorrow."
+      );
+      return; // Prevent booking
+    }
+
     console.log("Form Data:", formData);
     try {
       const response = await axios.post(
@@ -318,6 +384,7 @@ export default function BookAppointment() {
         "Appointment Booked",
         "Your appointment has been successfully booked."
       );
+      getAppointments(); // Update the appointments list
     } catch (error) {
       console.error("Error booking appointment", error);
       openNotificationWithIcon(
@@ -441,13 +508,13 @@ export default function BookAppointment() {
                   style={{ width: "100%" }}
                   onChange={(value) => {
                     setFormData({ ...formData, platform: value });
-                    console.log(value);
-                    const platform = arr.find((ar) => ar.title === value);
+                    const platform = platforms.find((ar) => ar._id === value);
+
                     setSelectedPlatform(platform);
                   }}
-                  options={arr.map((ar) => ({
-                    value: ar.title,
-                    label: ar.title,
+                  options={platforms.map((platform) => ({
+                    value: platform._id,
+                    label: platform.platform,
                   }))}
                   // options={[
                   //   { label: "Amazon.com", value: "amazon.com" },
@@ -473,9 +540,9 @@ export default function BookAppointment() {
                   onChange={(manager) =>
                     setFormData({ ...formData, manager: manager })
                   }
-                  options={selectedPlatform?.options?.map((option) => ({
-                    label: option,
-                    value: option,
+                  options={selectedPlatform?.managers?.map((option) => ({
+                    value: option.name,
+                    label: option.name,
                   }))}
                   // options={[
                   //   { label: "SM1(Manish)", value: "sm1(manish)" },
@@ -532,26 +599,45 @@ export default function BookAppointment() {
                   style={{ width: "75%" }}
                   name="date"
                   onChange={(date) => setFormData({ ...formData, date: date })}
+                  disabledDate={(current) => {
+                    // Disable all past dates and dates more than 2 days in the future
+                    const today = dayjs();
+                    const twoDaysLater = dayjs().add(2, "day");
+                    return (
+                      current &&
+                      (current < today.startOf("day") ||
+                        current > twoDaysLater.endOf("day"))
+                    );
+                  }}
                 />
               </Form.Item>
               <Form.Item
-                style={{ width: "75%" }}
+                style={{ width: "100%" }}
                 name="time"
                 label="Time"
                 rules={[{ required: true, message: "Please select a time" }]}
               >
                 <Radio.Group
-                  style={{ width: "75%" }}
+                  style={{ width: "100%" }}
                   name="time"
                   onChange={(e) =>
                     setFormData({ ...formData, time: e.target.value })
                   }
                 >
-                  {timeSlots.map((slot) => (
-                    <Radio.Button key={slot} value={slot}>
-                      {slot}
-                    </Radio.Button>
-                  ))}
+                  {timeSlots
+                    ?.filter((slot) => {
+                      let splittedSlots = slot.split(":");
+                      let currTime = new Date();
+                      let slotTime = new Date(
+                        new Date().setHours(splittedSlots[0], splittedSlots[1])
+                      );
+                      return slotTime.getTime() >= currTime.getTime();
+                    })
+                    .map((slot) => (
+                      <Radio.Button key={slot} value={slot}>
+                        {slot}
+                      </Radio.Button>
+                    ))}
                 </Radio.Group>
               </Form.Item>
             </Form>
@@ -563,7 +649,7 @@ export default function BookAppointment() {
   };
 
   return (
-    <Box sx={{ width: "70%", marginTop: "70px" }}>
+    <Box sx={{ width: "70%", marginTop: "50px", marginBottom: "40px" }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -594,17 +680,30 @@ export default function BookAppointment() {
         ) : (
           <React.Fragment>
             {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 1 }}>
               <Button
                 color="inherit"
                 disabled={activeStep === 0}
                 onClick={handleBack}
-                sx={{ mr: 1 }}
+                style={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  width: "120px",
+                  fontWeight: "bold",
+                }}
               >
                 Back
               </Button>
               <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleNext}>
+              <Button
+                style={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  width: "120px",
+                  fontWeight: "bold",
+                }}
+                onClick={handleNext}
+              >
                 {activeStep === steps.length - 1 ? "Finish" : "Next"}
               </Button>
             </Box>

@@ -176,7 +176,11 @@ const SupportManagerAppointmentDetails = () => {
                 onClick={() => setIsModalVisible(true)}
                 style={{ marginBottom: "20px" }}
               >
-                Add Comment
+                {localStorage.getItem("role") != "admin" ? (
+                  <p>Add Comment</p>
+                ) : (
+                  ""
+                )}
               </Button>
               {appointments ? (
                 <Table

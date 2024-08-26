@@ -239,7 +239,7 @@ const SupportUserDashboardMenu = () => {
           fontSize: "medium",
           boxShadow: 5,
           "&:hover": {
-            backgroundColor: "white",
+            color: "blue",
           },
         }}
         onClick={handleLogout}

@@ -1,3 +1,7 @@
+/* Import fonts at the very top */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+/* Your styles follow here */
 .mainHome {
   background-image: url("../assets/images/saumicSupport.jpg");
   background-size: 100% 100%;
@@ -17,6 +21,7 @@
 .mainHome > div > h1 {
   font-weight: 800;
   font-size: xxx-large;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .heroImg {
@@ -44,8 +49,12 @@
   margin-right: 80px;
 }
 
+.heroTitle > h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
 .heroTitle > button {
-  background-color: #5a51c1;
+  background-color: rgb(90, 81, 193);
   border-radius: 20px;
   padding: 8px 16px;
   font-weight: bold;
@@ -55,7 +64,7 @@
 }
 
 .heroTitle > button:hover {
-  background-color: #5a51c1;
+  background-color: rgb(90, 81, 193);
 }
 
 .video {
@@ -76,6 +85,7 @@
 .videoContent > h2 {
   font-weight: bold;
   font-size: xx-large;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .childVideo {
@@ -88,7 +98,7 @@
 .innerVideo {
   height: 300px;
   width: 30%;
-  border: 1px solid #353979;
+  border: 1px solid rgb(90, 81, 193);
   display: flex;
   align-items: center;
   justify-content: center;

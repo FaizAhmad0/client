@@ -11,7 +11,7 @@ import axios from "axios";
 import SupportAdminNav from "../components/layout/SupportAdminNav";
 import SupportAdminMenu from "../components/layout/SupportAdminMenu";
 import Loader from "../components/layout/Loader";
-import { notification, Input, Form } from "antd";
+import { notification, Input, Form, Radio } from "antd";
 import moment from "moment";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -22,6 +22,7 @@ const SupportAdminAppointment = () => {
   const [dateFilterOption, setDateFilterOption] = useState("all");
   const [statusFilterOption, setStatusFilterOption] = useState("all");
   const [filterId, setFilterId] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   console.log("all appointments", appointments);
 
@@ -128,6 +129,9 @@ const SupportAdminAppointment = () => {
   const handleDateFilterOptionChange = (event) => {
     setDateFilterOption(event.target.value);
   };
+  const handleFilterOptionChange = (event) => {
+    setDateFilterOption(event.target.value);
+  };
 
   const handleStatusFilterOptionChange = (event) => {
     setStatusFilterOption(event.target.value);
@@ -136,29 +140,36 @@ const SupportAdminAppointment = () => {
   const filterAppointments = (
     appointments,
     dateFilterOption,
-    statusFilterOption
+    statusFilterOption,
+    selectedDate
   ) => {
     const today = moment().startOf("day");
     let filteredAppointments = appointments;
 
-    switch (dateFilterOption) {
-      case "day":
-        filteredAppointments = filteredAppointments.filter((appointment) =>
-          moment(appointment.date).isSame(today, "day")
-        );
-        break;
-      case "week":
-        filteredAppointments = filteredAppointments.filter((appointment) =>
-          moment(appointment.date).isSame(today, "week")
-        );
-        break;
-      case "month":
-        filteredAppointments = filteredAppointments.filter((appointment) =>
-          moment(appointment.date).isSame(today, "month")
-        );
-        break;
-      default:
-        break;
+    if (selectedDate) {
+      filteredAppointments = filteredAppointments.filter((appointment) =>
+        moment(appointment.date).isSame(moment(selectedDate), "day")
+      );
+    } else {
+      switch (dateFilterOption) {
+        case "day":
+          filteredAppointments = filteredAppointments.filter((appointment) =>
+            moment(appointment.date).isSame(today, "day")
+          );
+          break;
+        case "week":
+          filteredAppointments = filteredAppointments.filter((appointment) =>
+            moment(appointment.date).isSame(today, "week")
+          );
+          break;
+        case "month":
+          filteredAppointments = filteredAppointments.filter((appointment) =>
+            moment(appointment.date).isSame(today, "month")
+          );
+          break;
+        default:
+          break;
+      }
     }
 
     switch (statusFilterOption) {
@@ -187,7 +198,12 @@ const SupportAdminAppointment = () => {
     ? appointments.filter((appointment) =>
         appointment.appointmentId.toString().includes(filterId)
       )
-    : filterAppointments(appointments, dateFilterOption, statusFilterOption);
+    : filterAppointments(
+        appointments,
+        dateFilterOption,
+        statusFilterOption,
+        selectedDate
+      );
 
   return (
     <>
@@ -219,20 +235,7 @@ const SupportAdminAppointment = () => {
                 onChange={handleFilterChange}
               />
             </Form.Item>
-            <Form.Item label="Filter by Date" className="custom-form-item">
-              <FormControl variant="outlined" size="small">
-                <Select
-                  value={dateFilterOption}
-                  onChange={handleDateFilterOptionChange}
-                  label="Date Filter"
-                >
-                  <MenuItem value="all">All</MenuItem>
-                  <MenuItem value="day">Today</MenuItem>
-                  <MenuItem value="week">This Week</MenuItem>
-                  <MenuItem value="month">This Month</MenuItem>
-                </Select>
-              </FormControl>
-            </Form.Item>
+
             <Form.Item label="Filter by Status" className="custom-form-item">
               <FormControl variant="outlined" size="small">
                 <Select
@@ -246,6 +249,24 @@ const SupportAdminAppointment = () => {
                   <MenuItem value="pending">Unresolved</MenuItem>
                 </Select>
               </FormControl>
+            </Form.Item>
+            {/* <Form.Item className="custom-form-item">
+              <Radio.Group
+                value={dateFilterOption}
+                onChange={handleFilterOptionChange}
+              >
+                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="day">Today</Radio.Button>
+                <Radio.Button value="week">This Week</Radio.Button>
+                <Radio.Button value="month">This Month</Radio.Button>
+              </Radio.Group>
+            </Form.Item> */}
+            <Form.Item label="Filter by Date" className="custom-form-item">
+              <Input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+              />
             </Form.Item>
           </Form>
         </div>
@@ -294,7 +315,7 @@ const SupportAdminAppointment = () => {
                             color: "white",
                             fontWeight: "bold",
                             backgroundColor: "green",
-                            marginTop: "15px",
+                            marginTop: "2px",
                           }}
                           type="primary"
                           htmlType="submit"

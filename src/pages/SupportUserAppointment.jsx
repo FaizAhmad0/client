@@ -12,7 +12,7 @@ import {
   Button,
 } from "@mui/material";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { Form, Input, Modal, Rate, notification } from "antd";
+import { Form, Input, Modal, Rate, notification, Radio } from "antd";
 import Loader from "../components/layout/Loader";
 import moment from "moment";
 import UserLayout from "../components/layout/UserLayout";
@@ -43,7 +43,6 @@ const SupportUserAppointment = () => {
       );
       console.log("API Response:", response.data);
       if (Array.isArray(response.data)) {
-        // Sort the appointments by date in descending order
         const sortedAppointments = response.data.sort(
           (a, b) => new Date(b.date) - new Date(a.date)
         );
@@ -212,20 +211,6 @@ const SupportUserAppointment = () => {
                 onChange={handleFilterChange}
               />
             </Form.Item>
-            <Form.Item label="Filter by Date" className="custom-form-item">
-              <FormControl variant="outlined" size="small">
-                <Select
-                  value={filterOption}
-                  onChange={handleFilterOptionChange}
-                  label="Date Filter"
-                >
-                  <MenuItem value="all">All</MenuItem>
-                  <MenuItem value="day">Today</MenuItem>
-                  <MenuItem value="week">This Week</MenuItem>
-                  <MenuItem value="month">This Month</MenuItem>
-                </Select>
-              </FormControl>
-            </Form.Item>
             <Form.Item label="Filter by Status" className="custom-form-item">
               <FormControl variant="outlined" size="small">
                 <Select
@@ -238,6 +223,17 @@ const SupportUserAppointment = () => {
                   <MenuItem value="pending">Unresolved</MenuItem>
                 </Select>
               </FormControl>
+            </Form.Item>
+            <Form.Item className="custom-form-item">
+              <Radio.Group
+                value={filterOption}
+                onChange={handleFilterOptionChange}
+              >
+                <Radio.Button value="all">All</Radio.Button>
+                <Radio.Button value="day">Today</Radio.Button>
+                <Radio.Button value="week">This Week</Radio.Button>
+                <Radio.Button value="month">This Month</Radio.Button>
+              </Radio.Group>
             </Form.Item>
           </Form>
         </div>
@@ -282,7 +278,7 @@ const SupportUserAppointment = () => {
 
                     {appointment.userReview ? (
                       <td>
-                        <h4>Reviews done</h4>
+                        <h4>{appointment.userReview.rating} Star</h4>
                       </td>
                     ) : (
                       <td>
