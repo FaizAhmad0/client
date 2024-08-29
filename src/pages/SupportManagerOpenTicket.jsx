@@ -80,7 +80,7 @@ const SupportManagerOpenTicket = () => {
               <tbody>
                 {tickets.map((ticket) => (
                   <tr
-                    key={ticket.id}
+                    key={ticket.ticketId}
                     style={{ fontSize: "12px" }}
                     onClick={() => handleRowClick(ticket.id)}
                   >
@@ -89,7 +89,7 @@ const SupportManagerOpenTicket = () => {
                     <td>{ticket.description}</td>
                     <td>{ticket.manager}</td>
                     <td>{formatDate(ticket.dateCreated)}</td>
-                    <td>{ticket.dateUpdated}</td>
+                    <td>{formatDate(ticket.dateUpdated)}</td>
                   </tr>
                 ))}
               </tbody>
