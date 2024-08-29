@@ -80,11 +80,11 @@ const SupportManagerOpenTicket = () => {
               <tbody>
                 {tickets.map((ticket) => (
                   <tr
-                    key={ticket.ticketId}
+                    key={ticket._id}
                     style={{ fontSize: "12px" }}
                     onClick={() => handleRowClick(ticket.id)}
                   >
-                    <td>{ticket._id.slice(-5)}</td>
+                    <td>{ticket.ticketId}</td>
                     <td style={getRowStyle(ticket.status)}>{ticket.status}</td>
                     <td>{ticket.description}</td>
                     <td>{ticket.manager}</td>
