@@ -137,7 +137,7 @@ function UserSidebar({ color }) {
   return (
     <div style={{ marginTop: "100px" }}>
       <h1 style={{ fontWeight: "bold" }}>
-        Welcom back {localStorage.getItem("name")}
+        Welcom Back {localStorage.getItem("name")}
       </h1>
 
       <Menu theme="light" mode="inline">

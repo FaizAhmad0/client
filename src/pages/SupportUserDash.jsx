@@ -108,7 +108,7 @@ const SupportUserDash = () => {
                 style={{ width: 200 }}
               >
                 <Option value="closed">Resolved</Option>
-                <Option value="open">Unresolved</Option>
+                <Option value="Open">Unresolved</Option>
                 <Option value="Waiting for customer reply">
                   Waiting for Customer Reply
                 </Option>
@@ -153,7 +153,7 @@ const SupportUserDash = () => {
                     <td>{ticket.description}</td>
                     <td>{ticket.manager}</td>
                     <td>{formatDate(ticket.dateCreated)}</td>
-                    <td>{ticket.dateUpdated}</td>
+                    <td>{formatDate(ticket.dateUpdated)}</td>
                   </tr>
                 ))}
               </tbody>
