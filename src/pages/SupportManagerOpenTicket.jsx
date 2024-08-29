@@ -84,7 +84,7 @@ const SupportManagerOpenTicket = () => {
                     style={{ fontSize: "12px" }}
                     onClick={() => handleRowClick(ticket.id)}
                   >
-                    <td>{ticket.ticketId}</td>
+                    <td>TCK{ticket.ticketId}</td>
                     <td style={getRowStyle(ticket.status)}>{ticket.status}</td>
                     <td>{ticket.description}</td>
                     <td>{ticket.manager}</td>
