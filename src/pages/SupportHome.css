@@ -1,5 +1,5 @@
 /* Import fonts at the very top */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
 
 /* Your styles follow here */
 .mainHome {
@@ -21,7 +21,7 @@
 .mainHome > div > h1 {
   font-weight: 800;
   font-size: xxx-large;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .heroImg {
@@ -50,7 +50,7 @@
 }
 
 .heroTitle > h1 {
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .heroTitle > button {
@@ -85,7 +85,7 @@
 .videoContent > h2 {
   font-weight: bold;
   font-size: xx-large;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 .childVideo {
@@ -158,7 +158,7 @@
   }
 
   .heroTitle > h1 {
-    font-size: xx-large;
+    font-size: large;
   }
 
   .videoContent > h2 {
