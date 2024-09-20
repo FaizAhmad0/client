@@ -11,7 +11,7 @@ const RaiseTicket = () => {
 
   const buttonStyle = {
     position: "absolute",
-    right: "50px",
+    right: "15px",
     top: "30px",
     background: "white",
     color: "black",
