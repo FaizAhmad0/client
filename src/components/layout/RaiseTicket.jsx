@@ -23,6 +23,15 @@ const RaiseTicket = () => {
     border: "2px solid white",
   };
 
+  const mobileButtonStyle = {
+    ...buttonStyle,
+    fontSize: "10px", // Smaller font size for mobile
+    right: "10px", // Adjust position on mobile
+    top: "30px", // Adjust position on mobile
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
   const openNotificationWithIcon = (type, message, description) => {
     notification[type]({
       message,
@@ -80,7 +89,11 @@ const RaiseTicket = () => {
 
   return (
     <div>
-      <Button style={buttonStyle} type="primary" onClick={showModal}>
+      <Button
+        style={window.innerWidth <= 768 ? mobileButtonStyle : buttonStyle}
+        type="primary"
+        onClick={showModal}
+      >
         Raise Ticket
       </Button>
       <Modal
