@@ -100,8 +100,8 @@ const SupportNavbar = ({
                 color: "black",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                padding: isMobile ? "6px 10px" : "8px 15px", // Smaller padding for mobile
-                fontSize: isMobile ? "12px" : "16px", // Smaller font size for mobile
+                padding: isMobile ? "5px 8px" : "8px 15px", // Smaller padding for mobile
+                fontSize: isMobile ? "8px" : "16px", // Smaller font size for mobile
                 boxShadow:
                   "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 position: "absolute",
