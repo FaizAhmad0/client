@@ -620,15 +620,27 @@ export default function BookAppointment() {
                     >
                       {timeSlots
                         ?.filter((slot) => {
-                          let splittedSlots = slot.split(":");
-                          let currTime = new Date();
-                          let slotTime = new Date(
-                            new Date().setHours(
-                              splittedSlots[0],
-                              splittedSlots[1]
-                            )
-                          );
-                          return slotTime.getTime() >= currTime.getTime();
+                          if (!formData.date) return true; // If no date is selected, show all times
+
+                          const selectedDate = formData.date.startOf("day");
+                          const today = dayjs().startOf("day");
+                          const tomorrow = dayjs().add(1, "day").startOf("day");
+
+                          let [hour, minute] = slot.split(":");
+                          let slotTime = dayjs()
+                            .set("hour", hour)
+                            .set("minute", minute);
+
+                          if (selectedDate.isSame(today)) {
+                            // Hide past time slots for today's date
+                            return slotTime.isAfter(dayjs());
+                          } else if (selectedDate.isSame(tomorrow)) {
+                            // Show all time slots for tomorrow
+                            return true;
+                          } else {
+                            // Show all times for future dates
+                            return true;
+                          }
                         })
                         .map((slot) => (
                           <Radio.Button key={slot} value={slot}>
