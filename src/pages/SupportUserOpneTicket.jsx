@@ -98,7 +98,7 @@ const SupportUserOpenTicket = () => {
                     <td>{ticket.description}</td>
                     <td>{ticket.manager}</td>
                     <td>{formatDate(ticket.dateCreated)}</td>
-                    <td>{ticket.dateUpdated}</td>
+                    <td>{formatDate(ticket.dateUpdated)}</td>
                   </tr>
                 ))}
               </tbody>
