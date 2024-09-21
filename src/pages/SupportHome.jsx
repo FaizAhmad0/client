@@ -1,717 +1,231 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import { useEffect } from "react";
-import { Row, Col } from "antd";
-import StepLabel from "@mui/material/StepLabel";
-import useMediaQuery from "@mui/material/useMediaQuery";
-
-import {
-  Button,
-  Modal,
-  Form,
-  Input,
-  Select,
-  DatePicker,
-  Radio,
-  notification,
-} from "antd";
-import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import Typography from "@mui/material/Typography";
-import { styled } from "@mui/system";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import React, { useEffect, useState } from "react";
+import SupportNavbar from "../components/layout/SupportNavbar.jsx";
+import "./SupportHome.css";
+import BookAppointmentForm from "../components/BookAppointmentForm.jsx";
+import SupportFooter from "../components/layout/SupportFooter.jsx";
+import { getUser } from "../redux/userSlice.jsx";
+import { useDispatch } from "react-redux";
 import axios from "axios";
-import { useState } from "react";
+import { Button } from "@mui/material";
+import HolidayNav from "../components/layout/HolidayNav.jsx";
+import { useHistory } from "react-router-dom";
+import { Modal, Form, Input, notification } from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
-dayjs.extend(customParseFormat);
-
-const steps = ["Details", "Services", "Time and date"];
-
-const timeSlots = [
-  "10:05",
-  "10:10",
-  "10:15",
-  "10:20",
-  "10:25",
-  "10:30",
-  "10:35",
-  "10:40",
-  "10:45",
-  "10:50",
-  "11:00",
-  "11:10",
-  "11:20",
-  "11:30",
-  "11:40",
-  "11:50",
-  "12:00",
-  "12:10",
-  "12:20",
-  "12:30",
-  "12:40",
-  "12:50",
-  "13:00",
-  "13:10",
-  "13:20",
-  "13:30",
-  "13:40",
-  "13:50",
-  "14:00",
-  "14:10",
-  "14:20",
-  "14:30",
-  "14:40",
-  "14:50",
-];
-
-export default function BookAppointment() {
-  const isMobile = useMediaQuery("(max-width:600px)");
+const SupportHome = () => {
+  const dispatch = useDispatch();
+  const [holidays, setHolidays] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [platforms, setPlatforms] = useState([]);
+  const [form] = Form.useForm();
+  const history = useHistory();
 
-  const [selectedPlatform, setSelectedPlatform] = useState({});
-  const [appointments, setAppointments] = useState([]);
-
-  const getPlatform = async () => {
-    try {
-      const response = await axios.get(
-        "https://server-kappa-ten-43.vercel.app/api/support/get-platform",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      setPlatforms(response.data);
-    } catch (err) {
-      console.log("Error fetching platforms:", err);
-    }
+  const buttonStyle = {
+    backgroundColor: "#5A51C1",
+    color: "White",
+    borderRadius: "20px",
+    fontWeight: "bold",
+    boxShadow:
+      "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://server-kappa-ten-43.vercel.app/api/support/holiday"
+        );
+        console.log("Holiday data:", response.data);
+        setHolidays(response.data);
+      } catch (err) {
+        console.log("Error fetching holiday data:", err);
+      }
+    };
+    fetchData();
+  }, []);
 
   const openNotificationWithIcon = (type, message, description) => {
     notification[type]({
       message,
       description,
-      style: { marginTop: 120 },
+      style: { marginTop: 100 },
     });
   };
 
-  const handleFinish = (values) => {
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleFinish = async (values) => {
     console.log("Form values:", values);
-
-    const now = new Date();
-    const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-    const recentAppointments = appointments.filter((appointment) => {
-      const appointmentDate = new Date(appointment.date);
-      return appointmentDate >= twentyFourHoursAgo && appointmentDate <= now;
-    });
-
-    if (recentAppointments.length >= 3) {
-      openNotificationWithIcon(
-        "error",
-        "Booking Limit Reached",
-        "You can only book 3 appointments within a 24-hour period. Please try again later."
-      );
-      return; // Prevent booking
-    }
-
-    const formattedValues = {
-      ...values,
-      date: values.date.format("YYYY-MM-DD"),
-    };
-
-    axios
-      .post(
-        "https://server-kappa-ten-43.vercel.app/api/support/appointmentRoute",
-        formattedValues,
-        {
-          headers: { Authorization: localStorage.getItem("token") },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        setIsModalVisible(false);
-        form.resetFields();
-        openNotificationWithIcon(
-          "success",
-          "Appointment Booked",
-          "Your appointment has been successfully booked."
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-        openNotificationWithIcon(
-          "error",
-          "Booking Failed",
-          "There was an error booking your appointment. Please try again."
-        );
-      });
-  };
-
-  const [form] = Form.useForm();
-
-  const getAppointments = async () => {
-    try {
-      const response = await axios.get(
-        "https://server-kappa-ten-43.vercel.app/api/support/getappointments",
-        {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        }
-      );
-      console.log("API Response:", response.data);
-      if (Array.isArray(response.data)) {
-        // Sort the appointments by date in descending order
-        const sortedAppointments = response.data.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        );
-        setAppointments(sortedAppointments);
-      } else {
-        console.error("Error: API response is not an array", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching appointments:", error);
-    }
-  };
-
-  useEffect(() => {
-    getAppointments();
-    getPlatform();
-  }, []);
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
-  const [formData, setFormData] = React.useState({
-    name: "",
-    email: "",
-    number: "",
-    subject: "",
-    enrollment: "",
-    platform: "",
-    manager: "",
-    description: "",
-    date: null,
-    time: null,
-    ad: "",
-  });
-  const [errors, setErrors] = React.useState({
-    name: "",
-    email: "",
-    number: "",
-    subject: "",
-    enrollment: "",
-    platform: "",
-    manager: "",
-    description: "",
-    date: "",
-    time: "",
-    ad: "",
-  });
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
-
-  const handleNext = async () => {
-    if (activeStep === steps.length - 1) {
-      history.push("/supportuserdashboard");
-    }
-
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    if (activeStep === steps.length - 1) {
-      await handleSubmit();
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
-
-    setSkipped(newSkipped);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const history = useHistory();
-  const handleReset = () => {
-    history.push("/supportuserdashboard");
-    setActiveStep(0);
-    setErrors({
-      name: "",
-      email: "",
-      number: "",
-      subject: "",
-      enrollment: "",
-      platform: "",
-      manager: "",
-      description: "",
-      date: "",
-      time: "",
-      ad: "",
-    });
-  };
-
-  const handleChange = (e) => {
-    console.log(`Field name: ${e.target.name}, Value: ${e.target.value}`);
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const validateStep = (step) => {
-    let valid = true;
-    let newErrors = { ...errors };
-
-    switch (step) {
-      case 0:
-        if (!formData.name) {
-          newErrors.name = "Please enter your full name";
-          valid = false;
-        }
-        if (!formData.email) {
-          newErrors.email = "Please enter your email";
-          valid = false;
-        }
-        if (!formData.number) {
-          newErrors.number = "Please enter your phone number";
-          valid = false;
-        }
-        if (!formData.subject) {
-          newErrors.subject = "Please enter your subject";
-          valid = false;
-        }
-        break;
-      case 1:
-        if (!formData.enrollment) {
-          newErrors.enrollment = "Please enter your enrollment number";
-          valid = false;
-        }
-        if (!formData.platform) {
-          newErrors.platform = "Please choose your platform";
-          valid = false;
-        }
-        if (!formData.manager) {
-          newErrors.manager = "Please choose your manager";
-          valid = false;
-        }
-        if (!formData.description) {
-          newErrors.description = "Please enter the description";
-          valid = false;
-        }
-        break;
-      case 2:
-        if (!formData.date) {
-          newErrors.date = "Please select a date";
-          valid = false;
-        }
-        if (!formData.time) {
-          newErrors.time = "Please select a time";
-          valid = false;
-        }
-        break;
-      default:
-        break;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
-
-  const handleSubmit = async () => {
-    const now = new Date();
-    const startOfDay = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-
-    const todayAppointments = appointments.filter((appointment) => {
-      const appointmentDate = new Date(appointment.date);
-      return appointmentDate >= startOfDay && appointmentDate <= now;
-    });
-
-    if (todayAppointments.length >= 3) {
-      openNotificationWithIcon(
-        "error",
-        "Booking Limit Reached",
-        "You can only book 3 appointments within a day. Please try again tomorrow."
-      );
-      return; // Prevent booking
-    }
-
-    console.log("Form Data:", formData);
     try {
       const response = await axios.post(
-        "https://server-kappa-ten-43.vercel.app/api/support/appointmentRoute",
-        formData
+        "https://server-kappa-ten-43.vercel.app/api/support/user-login",
+        values
       );
-      console.log("Appointment booked successfully", response.data);
+
+      setIsModalVisible(false);
+      form.resetFields();
       openNotificationWithIcon(
         "success",
-        "Appointment Booked",
-        "Your appointment has been successfully booked."
+        "Success",
+        "You have logged in successfully."
       );
-      getAppointments(); // Update the appointments list
+
+      localStorage.setItem("name", response.data.name);
+      localStorage.setItem("email", response.data.email);
+      localStorage.setItem("id", response.data.id);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", response.data.role);
+
+      history.push("/supportuserdashboard"); // Redirect after successful login
     } catch (error) {
-      console.error("Error booking appointment", error);
+      console.error(error);
       openNotificationWithIcon(
         "error",
-        "Failed",
-        "Your appointment couldn't be booked at this time, please try again."
+        "Login Fail",
+        "Please check your username and password, and try again."
       );
     }
   };
 
-  const getStepContent = (step) => {
-    switch (step) {
-      case 0:
-        return (
-          <div
-            style={{
-              marginTop: "20px",
-            }}
-          >
-            <Form form={form} layout="vertical" onFinish={handleFinish}>
-              <Row gutter={[16, 16]}>
-                {" "}
-                <Col xs={24} md={24}>
-                  {" "}
-                  <Form.Item
-                    name="name"
-                    label="Full Name"
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your full name",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="text"
-                      name="name"
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  {" "}
-                  <Form.Item
-                    name="email"
-                    label="Email"
-                    rules={[
-                      { required: true, message: "Please enter your email" },
-                    ]}
-                  >
-                    <Input
-                      type="email"
-                      name="email"
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} md={12}>
-                  {" "}
-                  <Form.Item
-                    name="number"
-                    label="Phone Number"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your phone number",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="tel"
-                      name="number"
-                      onChange={(e) =>
-                        setFormData({ ...formData, number: e.target.value })
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24}>
-                  {" "}
-                  {/* Full width on mobile, regardless of screen size */}
-                  <Form.Item
-                    name="subject"
-                    label="Subject"
-                    rules={[
-                      { required: true, message: "Please enter your subject" },
-                    ]}
-                  >
-                    <Input
-                      type="text"
-                      name="subject"
-                      onChange={(e) =>
-                        setFormData({ ...formData, subject: e.target.value })
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        );
-      case 1:
-        return (
-          <div style={{ marginTop: "20px" }}>
-            <Form form={form} layout="vertical" onFinish={handleFinish}>
-              <Row gutter={[16, 16]}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    name="enrollment"
-                    label="Enrollment Number"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter your enrollment number",
-                      },
-                    ]}
-                  >
-                    <Input
-                      type="text"
-                      name="enrollment"
-                      onChange={(e) =>
-                        setFormData({ ...formData, enrollment: e.target.value })
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    name="platform"
-                    label="Platform"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please choose your platform!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder="Choose your platform"
-                      style={{ width: "100%" }}
-                      onChange={(value) => {
-                        setFormData({ ...formData, platform: value });
-                        const platform = platforms.find(
-                          (ar) => ar._id === value
-                        );
-                        setSelectedPlatform(platform);
-                      }}
-                      options={platforms.map((platform) => ({
-                        value: platform._id,
-                        label: platform.platform,
-                      }))}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    name="manager"
-                    label="Managers"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please choose your managers!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      style={{ width: "100%" }}
-                      placeholder="Choose your manager"
-                      onChange={(manager) =>
-                        setFormData({ ...formData, manager: manager })
-                      }
-                      options={selectedPlatform?.managers?.map((option) => ({
-                        value: option.name,
-                        label: option.name,
-                      }))}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24}>
-                  <Form.Item
-                    name="description"
-                    label="Description"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter the description",
-                      },
-                    ]}
-                  >
-                    <Input.TextArea
-                      name="description"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          description: e.target.value,
-                        })
-                      }
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        );
-      case 2:
-        return (
-          <div style={{ marginTop: "20px" }}>
-            <Form form={form} layout="vertical" onFinish={handleFinish}>
-              <Row gutter={[16, 16]}>
-                <Col xs={24} md={12}>
-                  <Form.Item
-                    name="date"
-                    label="Date"
-                    rules={[
-                      { required: true, message: "Please select a date" },
-                    ]}
-                  >
-                    <DatePicker
-                      style={{ width: "100%" }}
-                      name="date"
-                      onChange={(date) =>
-                        setFormData({ ...formData, date: date })
-                      }
-                      disabledDate={(current) => {
-                        // Disable all past dates and dates more than 2 days in the future
-                        const today = dayjs();
-                        const twoDaysLater = dayjs().add(2, "day");
-                        return (
-                          current &&
-                          (current < today.startOf("day") ||
-                            current > twoDaysLater.endOf("day"))
-                        );
-                      }}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24}>
-                  <Form.Item
-                    name="time"
-                    label="Time"
-                    rules={[
-                      { required: true, message: "Please select a time" },
-                    ]}
-                  >
-                    <Radio.Group
-                      style={{ width: "100%" }}
-                      name="time"
-                      onChange={(e) =>
-                        setFormData({ ...formData, time: e.target.value })
-                      }
-                    >
-                      {timeSlots
-                        ?.filter((slot) => {
-                          let splittedSlots = slot.split(":");
-                          let currTime = new Date();
-                          let slotTime = new Date(
-                            new Date().setHours(
-                              splittedSlots[0],
-                              splittedSlots[1]
-                            )
-                          );
-                          return slotTime.getTime() >= currTime.getTime();
-                        })
-                        .map((slot) => (
-                          <Radio.Button key={slot} value={slot}>
-                            {slot}
-                          </Radio.Button>
-                        ))}
-                    </Radio.Group>
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        );
-      default:
-        return "Unknown step";
+  const handleAppointmentClick = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      history.push("/supportuserbookappointment");
+    } else {
+      showModal();
     }
   };
 
   return (
-    <Box sx={{ width: "70%", marginTop: "50px", marginBottom: "40px" }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-
-          return (
-            <Step key={label} {...stepProps}>
-              {/* Show only the current step label on mobile */}
-              <StepLabel {...labelProps}>
-                {isMobile ? (activeStep === index ? label : null) : label}
-              </StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you're finished
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {getStepContent(activeStep)}
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 1 }}>
+    <>
+      {holidays.length > 0 ? (
+        <div className="holidayContainer">
+          <HolidayNav />
+          <div className="holidayContent">
+            {holidays.map((holiday, index) => (
+              <div key={index} className="holidayItem">
+                <h2>Dear Valued User,</h2>
+                <p>
+                  We regret to inform you that the support portal is currently
+                  closed due to <strong>{holiday.message}</strong>.
+                </p>
+                <p>
+                  Please note that the portal will reopen on{" "}
+                  <strong>
+                    {new Date(holiday.date).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
+                  </strong>
+                  . During this time, you will not be able to access support
+                  services through the portal. We apologize for any
+                  inconvenience this may cause and appreciate your understanding
+                  and patience.
+                </p>
+                <p>Thank you for your cooperation.</p>
+                <p>Sincerely,</p>
+                <strong>Saumic craft Support Team</strong>
+              </div>
+            ))}
+          </div>
+          <SupportFooter />
+        </div>
+      ) : (
+        <>
+          <SupportNavbar />
+          <div className="mainHome">
+            <div className="heroTitle">
+              <h1>
+                PREMIUM SUPPORT
+                <br />
+                AND HELP DESK
+              </h1>
               <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                style={{
-                  backgroundColor: "blue",
-                  color: "white",
-                  width: "120px",
-                  fontWeight: "bold",
-                }}
+                variant="contained"
+                style={buttonStyle}
+                onClick={handleAppointmentClick}
               >
-                Back
+                Book Appointment
               </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button
-                style={{
-                  backgroundColor: "blue",
-                  color: "white",
-                  width: "120px",
-                  fontWeight: "bold",
-                }}
-                onClick={handleNext}
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button>
-            </Box>
-          </React.Fragment>
-        )}
-      </div>
-    </Box>
+            </div>
+            <div className="heroImg">
+              <img
+                src="https://support.saumiccraft.com/wp-content/uploads/2023/05/support-illustration-600x698-1.png"
+                alt="support"
+              />
+            </div>
+          </div>
+
+          <div className="video">
+            <div className="videoContent">
+              <h2>How to use support portal</h2>
+            </div>
+            <div className="childVideo">
+              <div className="innerVideo">
+                <h1>video 1</h1>
+              </div>
+              <div className="innerVideo">
+                <h1>video 2</h1>
+              </div>
+              <div className="innerVideo">
+                <h1>video 3</h1>
+              </div>
+            </div>
+          </div>
+          <SupportFooter />
+        </>
+      )}
+
+      <Modal
+        title="Login"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form form={form} layout="vertical" onFinish={handleFinish}>
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[{ required: true, message: "Please enter your username!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[{ required: true, message: "Please enter your password!" }]}
+          >
+            <Input.Password
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              style={{
+                background: "#353979",
+                color: "white",
+                boxShadow:
+                  "0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+                alignItems: "center",
+              }}
+              type="primary"
+              htmlType="submit"
+            >
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
   );
-}
+};
+
+export default SupportHome;

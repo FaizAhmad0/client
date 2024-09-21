@@ -4,9 +4,8 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import { useEffect } from "react";
 import { Row, Col } from "antd";
-import useMediaQuery from "@mui/material/useMediaQuery";
-
 import StepLabel from "@mui/material/StepLabel";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import {
   Button,
@@ -29,9 +28,6 @@ import { useState } from "react";
 dayjs.extend(customParseFormat);
 
 const steps = ["Details", "Services", "Time and date"];
-const dropDownStyle = {
-  width: 470,
-};
 
 const timeSlots = [
   "10:05",
@@ -113,7 +109,6 @@ export default function BookAppointment() {
       return appointmentDate >= twentyFourHoursAgo && appointmentDate <= now;
     });
 
-    // Check if the user has already booked 3 or more appointments
     if (recentAppointments.length >= 3) {
       openNotificationWithIcon(
         "error",
@@ -328,33 +323,8 @@ export default function BookAppointment() {
     return valid;
   };
 
-  // const handleSubmit = async () => {
-  //   console.log("Form Data:", formData);
-  //   try {
-  //     const response = await axios.post(
-  //       "https://server-kappa-ten-43.vercel.app/api/support/appointmentRoute",
-  //       formData
-  //     );
-  //     console.log("Appointment booked successfully", response.data);
-  //     openNotificationWithIcon(
-  //       "success",
-  //       "Appointment Booked",
-  //       "Your appointment has been successfully booked."
-  //     );
-  //   } catch (error) {
-  //     console.error("Error booking appointment", error);
-  //     openNotificationWithIcon(
-  //       "error",
-  //       "Failed",
-  //       "Your appointment couldn't be booked at this time, please try again."
-  //     );
-  //   }
-  // };
-
   const handleSubmit = async () => {
     const now = new Date();
-
-    // Filter the appointments to include only those booked on the same day
     const startOfDay = new Date(
       now.getFullYear(),
       now.getMonth(),
@@ -366,7 +336,6 @@ export default function BookAppointment() {
       return appointmentDate >= startOfDay && appointmentDate <= now;
     });
 
-    // Check if the user has already booked 3 or more appointments today
     if (todayAppointments.length >= 3) {
       openNotificationWithIcon(
         "error",
