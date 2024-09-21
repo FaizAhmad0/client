@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import { useEffect } from "react";
+import { Row, Col } from "antd";
+
 import StepLabel from "@mui/material/StepLabel";
 
 import {
@@ -401,248 +403,274 @@ export default function BookAppointment() {
         return (
           <div
             style={{
-              padding: "0 20px 10px 20px",
               marginTop: "20px",
             }}
           >
             <Form form={form} layout="vertical" onFinish={handleFinish}>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="name"
-                label="Full Name"
-                required
-                rules={[
-                  { required: true, message: "Please enter your full name" },
-                ]}
-              >
-                <Input
-                  type="text"
-                  name="name"
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="email"
-                label="Email"
-                rules={[{ required: true, message: "Please enter your email" }]}
-              >
-                <Input
-                  type="email"
-                  name="email"
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="number"
-                label="Phone Number"
-                rules={[
-                  { required: true, message: "Please enter your phone number" },
-                ]}
-              >
-                <Input
-                  type="tel"
-                  name="number"
-                  onChange={(e) =>
-                    setFormData({ ...formData, number: e.target.value })
-                  }
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="subject"
-                label="Subject"
-                rules={[
-                  { required: true, message: "Please enter your subject" },
-                ]}
-              >
-                <Input
-                  type="text"
-                  name="subject"
-                  onChange={(e) =>
-                    setFormData({ ...formData, subject: e.target.value })
-                  }
-                />
-              </Form.Item>
+              <Row gutter={[16, 16]}>
+                {" "}
+                <Col xs={24} md={24}>
+                  {" "}
+                  <Form.Item
+                    name="name"
+                    label="Full Name"
+                    required
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter your full name",
+                      },
+                    ]}
+                  >
+                    <Input
+                      type="text"
+                      name="name"
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                  {" "}
+                  <Form.Item
+                    name="email"
+                    label="Email"
+                    rules={[
+                      { required: true, message: "Please enter your email" },
+                    ]}
+                  >
+                    <Input
+                      type="email"
+                      name="email"
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} md={12}>
+                  {" "}
+                  <Form.Item
+                    name="number"
+                    label="Phone Number"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter your phone number",
+                      },
+                    ]}
+                  >
+                    <Input
+                      type="tel"
+                      name="number"
+                      onChange={(e) =>
+                        setFormData({ ...formData, number: e.target.value })
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24}>
+                  {" "}
+                  {/* Full width on mobile, regardless of screen size */}
+                  <Form.Item
+                    name="subject"
+                    label="Subject"
+                    rules={[
+                      { required: true, message: "Please enter your subject" },
+                    ]}
+                  >
+                    <Input
+                      type="text"
+                      name="subject"
+                      onChange={(e) =>
+                        setFormData({ ...formData, subject: e.target.value })
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Form>
           </div>
         );
       case 1:
         return (
-          <div style={{ padding: "0 20px 10px 20px" }}>
+          <div style={{ marginTop: "20px" }}>
             <Form form={form} layout="vertical" onFinish={handleFinish}>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="enrollment"
-                label="Enrollment Number"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your enrollment number",
-                  },
-                ]}
-              >
-                <Input
-                  type="text"
-                  name="enrollment"
-                  onChange={(e) =>
-                    setFormData({ ...formData, enrollment: e.target.value })
-                  }
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="platform"
-                label="Platform"
-                rules={[
-                  { required: true, message: "Please choose your platform!" },
-                ]}
-              >
-                <Select
-                  placeholder="Choose your platform"
-                  style={{ width: "100%" }}
-                  onChange={(value) => {
-                    setFormData({ ...formData, platform: value });
-                    const platform = platforms.find((ar) => ar._id === value);
+              <Row gutter={[16, 16]}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    name="enrollment"
+                    label="Enrollment Number"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter your enrollment number",
+                      },
+                    ]}
+                  >
+                    <Input
+                      type="text"
+                      name="enrollment"
+                      onChange={(e) =>
+                        setFormData({ ...formData, enrollment: e.target.value })
+                      }
+                    />
+                  </Form.Item>
+                </Col>
 
-                    setSelectedPlatform(platform);
-                  }}
-                  options={platforms.map((platform) => ({
-                    value: platform._id,
-                    label: platform.platform,
-                  }))}
-                  // options={[
-                  //   { label: "Amazon.com", value: "amazon.com" },
-                  //   { label: "Flipkart", value: "flipkart" },
-                  //   { label: "Meesho", value: "meesho" },
-                  //   { label: "Etsy", value: "etsy" },
-                  //   { label: "Amazon India", value: "amazon-india" },
-                  //   { label: "Website", value: "website" },
-                  // ]}
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="manager"
-                label="Managers"
-                rules={[
-                  { required: true, message: "Please choose your managers!" },
-                ]}
-              >
-                <Select
-                  style={{ width: "100%" }}
-                  placeholder="Choose your manager"
-                  onChange={(manager) =>
-                    setFormData({ ...formData, manager: manager })
-                  }
-                  options={selectedPlatform?.managers?.map((option) => ({
-                    value: option.name,
-                    label: option.name,
-                  }))}
-                  // options={[
-                  //   { label: "SM1(Manish)", value: "sm1(manish)" },
-                  //   { label: "Mukesh", value: "mukesh" },
-                  //   { label: "Charu", value: "charu" },
-                  //   { label: "Yogendra", value: "yogendra" },
-                  //   { label: "Dipanshu", value: "dipanshu" },
-                  //   { label: "SM6(Ujwal)", value: "sm6(ujwal)" },
-                  //   {
-                  //     label: "TEAM Leader7(Ramesh)",
-                  //     value: "team-leader7(ramesh)",
-                  //   },
-                  //   { label: "Dinesh", value: "dinesh" },
-                  //   {
-                  //     label: "Team Leader 4 (Rahul)",
-                  //     value: "team-leader4(rahul)",
-                  //   },
-                  //   { label: "Prakash(Amazon.in)", value: "Prakash(Amazon.in)" },
-                  //   { label: "Team Leader 3 (Ritu)", value: "team-leader3(ritu)" },
-                  //   { label: "SMB (Uzair)", value: "smb(uzair)" },
-                  //   { label: "SM 13 (Akhil)", value: "sm13(akhil)" },
-                  // ]}
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="description"
-                label="Description"
-                rules={[
-                  { required: true, message: "Please enter the description" },
-                ]}
-              >
-                <Input.TextArea
-                  name="description"
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
-              </Form.Item>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    name="platform"
+                    label="Platform"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please choose your platform!",
+                      },
+                    ]}
+                  >
+                    <Select
+                      placeholder="Choose your platform"
+                      style={{ width: "100%" }}
+                      onChange={(value) => {
+                        setFormData({ ...formData, platform: value });
+                        const platform = platforms.find(
+                          (ar) => ar._id === value
+                        );
+                        setSelectedPlatform(platform);
+                      }}
+                      options={platforms.map((platform) => ({
+                        value: platform._id,
+                        label: platform.platform,
+                      }))}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    name="manager"
+                    label="Managers"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please choose your managers!",
+                      },
+                    ]}
+                  >
+                    <Select
+                      style={{ width: "100%" }}
+                      placeholder="Choose your manager"
+                      onChange={(manager) =>
+                        setFormData({ ...formData, manager: manager })
+                      }
+                      options={selectedPlatform?.managers?.map((option) => ({
+                        value: option.name,
+                        label: option.name,
+                      }))}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col xs={24}>
+                  <Form.Item
+                    name="description"
+                    label="Description"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter the description",
+                      },
+                    ]}
+                  >
+                    <Input.TextArea
+                      name="description"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
             </Form>
           </div>
         );
       case 2:
-        return (
-          <div style={{ padding: "0 20px 10px 20px" }}>
-            <Form form={form} layout="vertical" onFinish={handleFinish}>
-              <Form.Item
-                style={{ width: "75%" }}
-                name="date"
-                label="Date"
-                rules={[{ required: true, message: "Please select a date" }]}
-              >
-                <DatePicker
-                  style={{ width: "75%" }}
-                  name="date"
-                  onChange={(date) => setFormData({ ...formData, date: date })}
-                  disabledDate={(current) => {
-                    // Disable all past dates and dates more than 2 days in the future
-                    const today = dayjs();
-                    const twoDaysLater = dayjs().add(2, "day");
-                    return (
-                      current &&
-                      (current < today.startOf("day") ||
-                        current > twoDaysLater.endOf("day"))
-                    );
-                  }}
-                />
-              </Form.Item>
-              <Form.Item
-                style={{ width: "100%" }}
-                name="time"
-                label="Time"
-                rules={[{ required: true, message: "Please select a time" }]}
-              >
-                <Radio.Group
-                  style={{ width: "100%" }}
-                  name="time"
-                  onChange={(e) =>
-                    setFormData({ ...formData, time: e.target.value })
-                  }
-                >
-                  {timeSlots
-                    ?.filter((slot) => {
-                      let splittedSlots = slot.split(":");
-                      let currTime = new Date();
-                      let slotTime = new Date(
-                        new Date().setHours(splittedSlots[0], splittedSlots[1])
-                      );
-                      return slotTime.getTime() >= currTime.getTime();
-                    })
-                    .map((slot) => (
-                      <Radio.Button key={slot} value={slot}>
-                        {slot}
-                      </Radio.Button>
-                    ))}
-                </Radio.Group>
-              </Form.Item>
-            </Form>
-          </div>
-        );
+         return (
+           <div style={{ marginTop: "20px" }}>
+             <Form form={form} layout="vertical" onFinish={handleFinish}>
+               <Row gutter={[16, 16]}>
+                 <Col xs={24} md={12}>
+                   <Form.Item
+                     name="date"
+                     label="Date"
+                     rules={[
+                       { required: true, message: "Please select a date" },
+                     ]}
+                   >
+                     <DatePicker
+                       style={{ width: "100%" }}
+                       name="date"
+                       onChange={(date) =>
+                         setFormData({ ...formData, date: date })
+                       }
+                       disabledDate={(current) => {
+                         // Disable all past dates and dates more than 2 days in the future
+                         const today = dayjs();
+                         const twoDaysLater = dayjs().add(2, "day");
+                         return (
+                           current &&
+                           (current < today.startOf("day") ||
+                             current > twoDaysLater.endOf("day"))
+                         );
+                       }}
+                     />
+                   </Form.Item>
+                 </Col>
+
+                 <Col xs={24}>
+                   <Form.Item
+                     name="time"
+                     label="Time"
+                     rules={[
+                       { required: true, message: "Please select a time" },
+                     ]}
+                   >
+                     <Radio.Group
+                       style={{ width: "100%" }}
+                       name="time"
+                       onChange={(e) =>
+                         setFormData({ ...formData, time: e.target.value })
+                       }
+                     >
+                       {timeSlots
+                         ?.filter((slot) => {
+                           let splittedSlots = slot.split(":");
+                           let currTime = new Date();
+                           let slotTime = new Date(
+                             new Date().setHours(
+                               splittedSlots[0],
+                               splittedSlots[1]
+                             )
+                           );
+                           return slotTime.getTime() >= currTime.getTime();
+                         })
+                         .map((slot) => (
+                           <Radio.Button key={slot} value={slot}>
+                             {slot}
+                           </Radio.Button>
+                         ))}
+                     </Radio.Group>
+                   </Form.Item>
+                 </Col>
+               </Row>
+             </Form>
+           </div>
+         );
       default:
         return "Unknown step";
     }
