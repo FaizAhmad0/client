@@ -37,6 +37,13 @@
   height: 100%;
   width: 100%;
 }
+.buttonStyle {
+  background-color: "#5A51C1";
+  color: "White";
+  border-radius: "20px";
+  font-weight: "bold";
+  box-shadow: "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+}
 
 .heroTitle {
   height: 320px;
@@ -47,10 +54,6 @@
   flex-direction: column;
   margin-top: 140px;
   margin-right: 80px;
-}
-
-.heroTitle > h1 {
-  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
 .heroTitle > button {
@@ -154,9 +157,12 @@
 
   .heroTitle {
     width: 90%;
-    margin-top: 120px;
+    margin-top: 50px;
   }
 
+  .heroTitle > h1 {
+    font-size: xx-large !important;
+  }
   .videoContent > h2 {
     font-size: x-large;
   }
@@ -171,15 +177,14 @@
     width: 95%;
   }
 
-  .heroTitle > h1 {
-    font-size: large;
-  }
-
   .heroTitle > button {
     padding: 6px 12px;
   }
 
   .videoContent > h2 {
     font-size: large;
+  }
+  .heroTitle > h1 {
+    font-size: small;
   }
 }

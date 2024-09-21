@@ -25,9 +25,9 @@ const RaiseTicket = () => {
 
   const mobileButtonStyle = {
     ...buttonStyle,
-    fontSize: "10px", // Smaller font size for mobile
-    right: "10px", // Adjust position on mobile
-    top: "30px", // Adjust position on mobile
+    fontSize: "10px", 
+    right: "10px", 
+    top: "30px",
     alignItems: "center",
     justifyContent: "center",
   };
@@ -72,7 +72,7 @@ const RaiseTicket = () => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
 
-      setIsAuthenticated(true); // Set authentication state to true
+      setIsAuthenticated(true); 
     } catch (error) {
       console.error(error);
       openNotificationWithIcon(
@@ -84,7 +84,7 @@ const RaiseTicket = () => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/supportuserdashboard" />; // Redirect to the dashboard
+    return <Redirect to="/supportuserdashboard" />; 
   }
 
   return (
