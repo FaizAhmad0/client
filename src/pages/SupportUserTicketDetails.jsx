@@ -120,6 +120,7 @@ const SupportUserTicketDetails = () => {
                   layout="vertical"
                   onFinish={onFinish}
                   className="needs-validation"
+                  style={{ paddingLeft: "20px" }}
                 >
                   <Form.Item
                     name="comment"
