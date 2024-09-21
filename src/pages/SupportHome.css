@@ -113,6 +113,60 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.holidayContainer {
+  margin-top: 10px;
+}
+
+.holidayContent {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 150px;
+  flex-direction: column; /* For proper stacking of elements */
+  text-align: center;
+}
+
+/* For mobile screens */
+@media screen and (max-width: 768px) {
+  .holidayContent {
+    padding: 80px 20px; /* Reduce padding on smaller screens */
+    height: auto; /* Allow content to grow naturally */
+    margin-top: 120px;
+  }
+
+  .holidayItem {
+    font-size: 14px; /* Adjust font size for readability */
+  }
+
+  h2 {
+    font-size: 18px; /* Smaller heading for mobile */
+  }
+
+  p {
+    font-size: 14px; /* Smaller paragraph text for mobile */
+  }
+}
+
+/* For very small screens (e.g., under 576px) */
+@media screen and (max-width: 576px) {
+  .holidayContent {
+    padding: 50px 10px;
+  }
+
+  .holidayItem {
+    font-size: 12px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
 /* Media Queries for Mobile Responsiveness */
 @media (max-width: 1200px) {
   .mainHome {
