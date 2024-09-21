@@ -163,6 +163,9 @@
   .heroTitle > h1 {
     font-size: xx-large !important;
   }
+  .video {
+    padding-right: 20px;
+  }
   .videoContent > h2 {
     font-size: x-large;
   }
