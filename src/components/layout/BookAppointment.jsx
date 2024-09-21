@@ -4,6 +4,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import { useEffect } from "react";
 import { Row, Col } from "antd";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 import StepLabel from "@mui/material/StepLabel";
 
@@ -70,6 +71,7 @@ const timeSlots = [
 ];
 
 export default function BookAppointment() {
+  const isMobile = useMediaQuery("(max-width:600px)");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [platforms, setPlatforms] = useState([]);
 
@@ -600,77 +602,77 @@ export default function BookAppointment() {
           </div>
         );
       case 2:
-         return (
-           <div style={{ marginTop: "20px" }}>
-             <Form form={form} layout="vertical" onFinish={handleFinish}>
-               <Row gutter={[16, 16]}>
-                 <Col xs={24} md={12}>
-                   <Form.Item
-                     name="date"
-                     label="Date"
-                     rules={[
-                       { required: true, message: "Please select a date" },
-                     ]}
-                   >
-                     <DatePicker
-                       style={{ width: "100%" }}
-                       name="date"
-                       onChange={(date) =>
-                         setFormData({ ...formData, date: date })
-                       }
-                       disabledDate={(current) => {
-                         // Disable all past dates and dates more than 2 days in the future
-                         const today = dayjs();
-                         const twoDaysLater = dayjs().add(2, "day");
-                         return (
-                           current &&
-                           (current < today.startOf("day") ||
-                             current > twoDaysLater.endOf("day"))
-                         );
-                       }}
-                     />
-                   </Form.Item>
-                 </Col>
+        return (
+          <div style={{ marginTop: "20px" }}>
+            <Form form={form} layout="vertical" onFinish={handleFinish}>
+              <Row gutter={[16, 16]}>
+                <Col xs={24} md={12}>
+                  <Form.Item
+                    name="date"
+                    label="Date"
+                    rules={[
+                      { required: true, message: "Please select a date" },
+                    ]}
+                  >
+                    <DatePicker
+                      style={{ width: "100%" }}
+                      name="date"
+                      onChange={(date) =>
+                        setFormData({ ...formData, date: date })
+                      }
+                      disabledDate={(current) => {
+                        // Disable all past dates and dates more than 2 days in the future
+                        const today = dayjs();
+                        const twoDaysLater = dayjs().add(2, "day");
+                        return (
+                          current &&
+                          (current < today.startOf("day") ||
+                            current > twoDaysLater.endOf("day"))
+                        );
+                      }}
+                    />
+                  </Form.Item>
+                </Col>
 
-                 <Col xs={24}>
-                   <Form.Item
-                     name="time"
-                     label="Time"
-                     rules={[
-                       { required: true, message: "Please select a time" },
-                     ]}
-                   >
-                     <Radio.Group
-                       style={{ width: "100%" }}
-                       name="time"
-                       onChange={(e) =>
-                         setFormData({ ...formData, time: e.target.value })
-                       }
-                     >
-                       {timeSlots
-                         ?.filter((slot) => {
-                           let splittedSlots = slot.split(":");
-                           let currTime = new Date();
-                           let slotTime = new Date(
-                             new Date().setHours(
-                               splittedSlots[0],
-                               splittedSlots[1]
-                             )
-                           );
-                           return slotTime.getTime() >= currTime.getTime();
-                         })
-                         .map((slot) => (
-                           <Radio.Button key={slot} value={slot}>
-                             {slot}
-                           </Radio.Button>
-                         ))}
-                     </Radio.Group>
-                   </Form.Item>
-                 </Col>
-               </Row>
-             </Form>
-           </div>
-         );
+                <Col xs={24}>
+                  <Form.Item
+                    name="time"
+                    label="Time"
+                    rules={[
+                      { required: true, message: "Please select a time" },
+                    ]}
+                  >
+                    <Radio.Group
+                      style={{ width: "100%" }}
+                      name="time"
+                      onChange={(e) =>
+                        setFormData({ ...formData, time: e.target.value })
+                      }
+                    >
+                      {timeSlots
+                        ?.filter((slot) => {
+                          let splittedSlots = slot.split(":");
+                          let currTime = new Date();
+                          let slotTime = new Date(
+                            new Date().setHours(
+                              splittedSlots[0],
+                              splittedSlots[1]
+                            )
+                          );
+                          return slotTime.getTime() >= currTime.getTime();
+                        })
+                        .map((slot) => (
+                          <Radio.Button key={slot} value={slot}>
+                            {slot}
+                          </Radio.Button>
+                        ))}
+                    </Radio.Group>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
+          </div>
+        );
       default:
         return "Unknown step";
     }
@@ -689,7 +691,10 @@ export default function BookAppointment() {
 
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
+              {/* Show only the current step label on mobile */}
+              <StepLabel {...labelProps}>
+                {isMobile ? (activeStep === index ? label : null) : label}
+              </StepLabel>
             </Step>
           );
         })}
