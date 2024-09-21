@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import { Box, Button, Snackbar } from "@mui/material";
@@ -21,6 +21,21 @@ const SupportNavbar = ({
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Function to handle screen resizing for responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 576); // Mobile screens are considered 576px or smaller
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize); // Listen to screen resizing
+
+    return () => {
+      window.removeEventListener("resize", handleResize); // Cleanup listener on unmount
+    };
+  }, []);
 
   const handleButtonClick = async () => {
     try {
@@ -51,6 +66,7 @@ const SupportNavbar = ({
     padding: "10px",
     cursor: "pointer",
   };
+
   const handleBrandClick = () => {
     history.push("/supportuserdashboard");
   };
@@ -84,7 +100,8 @@ const SupportNavbar = ({
                 color: "black",
                 borderRadius: "20px",
                 fontWeight: "bold",
-                padding: "8px 15px",
+                padding: isMobile ? "6px 10px" : "8px 15px", // Smaller padding for mobile
+                fontSize: isMobile ? "12px" : "16px", // Smaller font size for mobile
                 boxShadow:
                   "0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
                 position: "absolute",
